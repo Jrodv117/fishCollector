@@ -10,6 +10,10 @@
         <p>Location {{ fish.location }} </p>
         <p>Description {{ fish.description }} </p>
     </div>
+    <div class="card-action">
+        <a href="{% url 'fishes_update' fish.id %}">Edit</a>
+        <a href="{% url 'fishes_delete' fish.id %}">Delete</a>
+      </div>
 </div>
 
 {% endblock %}
