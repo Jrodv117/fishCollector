@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Fish
+from django.views.generic import ListView, DetailView
+from .models import Fish, Location 
 from .forms import BaitForm
 
 # Create your views here.
@@ -16,8 +17,10 @@ def fishes_index(request):
 
 def fishes_detail(request, fish_id):
     fish = Fish.objects.get(id=fish_id)
+    id_list = fish.locations.all().values_list('id')
+    locations_fish_doesnt_have = Location.objects.exclude(id__in=id_list)
     bait_form = BaitForm()
-    return render(request, 'fishes/details.html', {'fish': fish, 'bait_form': bait_form})
+    return render(request, 'fishes/details.html', {'fish': fish, 'bait_form': bait_form, 'locations': locations_fish_doesnt_have})
 
 def add_bait(request, fish_id):
   form = BaitForm(request.POST)
@@ -27,9 +30,13 @@ def add_bait(request, fish_id):
     new_bait.save()
   return redirect('detail', fish_id=fish_id)
 
+def assoc_location(request, fish_id, location_id):
+  Fish.objects.get(id=fish_id).locations.add(location_id)
+  return redirect('detail', fish_id=fish_id)
+
 class FishCreate(CreateView):
     model = Fish
-    fields = '__all__'
+    fields = ['kind', 'description']
 
 class FishUpdate(UpdateView):
     model = Fish
@@ -38,4 +45,22 @@ class FishUpdate(UpdateView):
 class FishDelete(DeleteView):
     model = Fish
     success_url = '/fishes/'
+  
+class LocationList(ListView):
+    model = Location
+
+class LocationDetail(DetailView):
+    model = Location
+
+class LocationCreate(CreateView):
+    model = Location
+    fields = '__all__'
+
+class LocationUpdate(UpdateView):
+    model = Location
+    fields = '__all__'
+
+class LocationDelete(DeleteView):
+    model = Location
+    success_url = '/locations/'
   
