@@ -18,6 +18,11 @@
     </div>
 </div>
 <div class="col s6">
+  <form action="{% url 'add_bait' fish.id %}" method="POST">
+    {% csrf_token %}
+    {{ bait_form.as_p }}
+    <input type="submit" class="btn" value="Add bait">
+  </form>
   <table class="striped">
     <thead>
       <tr><th>Bait</th></tr>
@@ -33,4 +38,10 @@
 </div>
 </div>
 
+<script>
+
+  const selectEl = document.getElementById('id_type');
+  M.FormSelect.init(selectEl);
+
+</script>
 {% endblock %}

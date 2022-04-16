@@ -8,5 +8,6 @@ urlpatterns = [
     path('fishes/<int:fish_id>/', views.fishes_detail, name='detail'),
     path('fishes/create/', views.FishCreate.as_view(), name='fishes_create'),
     path('fishes/<int:pk>/update/', views.FishUpdate.as_view(), name='fishes_update'),
-    path('fishes/<int:pk>/delete/', views.FishDelete.as_view(), name='fishes_delete')
+    path('fishes/<int:pk>/delete/', views.FishDelete.as_view(), name='fishes_delete'),
+    path('fishes/<int:fish_id>/add_bait/', views.add_bait, name='add_bait')
 ]

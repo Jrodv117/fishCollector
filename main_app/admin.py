@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Fish
+from .models import Fish, Bait
 
 # Register your models here.
 admin.site.register(Fish)

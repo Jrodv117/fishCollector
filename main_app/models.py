@@ -11,7 +11,6 @@ BAITS = (
 # Create your models here.
 class Fish(models.Model):
     kind = models.CharField(max_length=50)
-    length = models.IntegerField()
     location = models.CharField(max_length=100)
     description = models.CharField(max_length=250)
 
@@ -23,7 +22,7 @@ class Fish(models.Model):
 
 class Bait(models.Model):
     type = models.CharField(
-        'Types of Bait Used',
+        'Types Of Bait Used',
         max_length=2,
         choices=BAITS,
         default=BAITS[0][0]

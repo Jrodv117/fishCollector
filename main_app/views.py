@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Fish
+from .forms import BaitForm
 
 # Create your views here.
 def home(request):
@@ -15,7 +16,16 @@ def fishes_index(request):
 
 def fishes_detail(request, fish_id):
     fish = Fish.objects.get(id=fish_id)
-    return render(request, 'fishes/details.html', {'fish': fish})
+    bait_form = BaitForm()
+    return render(request, 'fishes/details.html', {'fish': fish, 'bait_form': bait_form})
+
+def add_bait(request, fish_id):
+  form = BaitForm(request.POST)
+  if form.is_valid():
+    new_bait = form.save(commit=False)
+    new_bait.fish_id = fish_id
+    new_bait.save()
+  return redirect('detail', fish_id=fish_id)
 
 class FishCreate(CreateView):
     model = Fish
